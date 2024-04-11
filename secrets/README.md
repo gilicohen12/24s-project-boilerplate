@@ -1,4 +1,4 @@
-# Password secrets for MySQL
+# Password secrets for ../MySQL
 
 You should never store passwords in a file that will be pushed to github or any other cloud-hosted system.  You'll notice that in the .gitignore, two files from this folder are indeed ignored.  
 
