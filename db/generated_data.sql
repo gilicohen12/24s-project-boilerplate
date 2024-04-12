@@ -1,4 +1,10 @@
-INSERT INTO User (Username) 
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+
+USE `MunchMasterPro`;
+
+DROP TABLE IF EXISTS `User`;
+INSERT INTO 'User' (Username) 
 VALUES 
 ('sgibling0'),
 ('mbertelet1'),
@@ -52,7 +58,8 @@ VALUES
 ('bickovits1d');
 
 
-INSERT INTO Blog (Username, BlogId) 
+DROP TABLE IF EXISTS `Blog`;
+INSERT INTO 'Blog' (Username, BlogId) 
 VALUES 
 ('sgibling0', 1),
 ('mbertelet1', 2),
@@ -106,7 +113,8 @@ VALUES
 ('bickovits1d', 50);
 
 
-INSERT INTO Post (Content, BlogId, Title) 
+DROP TABLE IF EXISTS `Post`;
+INSERT INTO 'Post' (Content, BlogId, Title) 
 VALUES 
 ('sgibling0', 1, 'Chocolate chip cookies'),
 ('mbertelet1', 2, 'Ice cream'),
@@ -159,7 +167,9 @@ VALUES
 ('hwadham1c', 49, 'Greek cuisine delights'),
 ('bickovits1d', 50, 'Turkish kebab secrets');
 
-INSERT INTO Tags (ContainsNuts, GlutenFree, Vegetarian, DairyFree, ContainsProtein, FatFree, Vegan, TagId) 
+
+DROP TABLE IF EXISTS `Tags`;
+INSERT INTO 'Tags' (ContainsNuts, GlutenFree, Vegetarian, DairyFree, ContainsProtein, FatFree, Vegan, TagId) 
 VALUES 
 (0, 0, 0, 0, 1, 0, 0, 0),
 (0, 1, 0, 1, 0, 1, 0, 1),
@@ -213,7 +223,9 @@ VALUES
 (0, 1, 0, 0, 1, 1, 0, 49),
 (1, 0, 1, 1, 0, 0, 1, 50);
 
-INSERT INTO Recipe (Name, Story, Directions, TagId, BlogID, Origin, RecipeID) 
+
+DROP TABLE IF EXISTS `Recipe`;
+INSERT INTO 'Recipe' (Name, Story, Directions, TagId, BlogID, Origin, RecipeID) 
 VALUES 
 ('Cookie dough', 'This was my grandmothers recipe that is 40 years old', 'Mix all ingredients and enjoy', 0, 0, 'My grandma', 0),
 ('Ice cream', 'Homemade gelato from my Italy trip!', 'Add ingredients, fix, freeze', 1, 1, 'Italy', 1),
@@ -268,7 +280,8 @@ VALUES
 ('Apple Pie', 'All-American classic dessert', 'Mix ingredients, pour into pie crust, bake until golden and bubbly', 50, 50, 'Homemade Treats', 50);
 
 
-INSERT INTO Log (LogID, Username) 
+DROP TABLE IF EXISTS `Log`;
+INSERT INTO 'Log' (LogID, Username) 
 VALUES 
 (0, 'sgibling0'), (1, 'mbertelet1'), (2, 'lgealy2'), (3, 'scoskerry3'), (4, 'egeck4'), 
 (5, 'bmccaskell5'), (6, 'gpevreal6'), (7, 'ustandring7'), (8, 'collcott8'), (9, 'fvido9'), 
@@ -283,7 +296,8 @@ VALUES
 
 
 
-INSERT INTO Day (VeggieGoal, FruitGoal, FatsGoal, ProteinGoal, GrainsGoal, VeganGoal, VegetarianGoal, DairyFreeGoal, GlutenFreeGoal, LogID, Date)
+DROP TABLE IF EXISTS `Day`;
+INSERT INTO 'Day' (VeggieGoal, FruitGoal, FatsGoal, ProteinGoal, GrainsGoal, VeganGoal, VegetarianGoal, DairyFreeGoal, GlutenFreeGoal, LogID, Date)
 VALUES
 (0, 1, 5, 6, 7, 0, 1, 1, 1, 0, '2024-04-18'),
 (1, 0, 7, 3, 2, 1, 1, 0, 1, 1, '2024-04-04'),
@@ -336,7 +350,9 @@ VALUES
 (0, 1, 7, 3, 4, 0, 1, 1, 1, 48, '2024-04-12'),
 (1, 0, 6, 4, 9, 1, 1, 1, 0, 49, '2024-04-07');
 
-INSERT INTO Meal (MealType, Date, MealID)
+
+DROP TABLE IF EXISTS `Meal`;
+INSERT INTO 'Meal'(MealType, Date, MealID)
 VALUES
 ('Breakfast', '2024-04-18', 0),
 ('Lunch', '2024-04-04', 1),
@@ -389,7 +405,9 @@ VALUES
 ('Breakfast', '2024-04-12', 48),
 ('Lunch', '2024-04-07', 49);
 
-INSERT INTO FoodItems (ServingCount, MealType, MealID, Ing_Name, Food_Name)
+
+DROP TABLE IF EXISTS `FoodItems`;
+INSERT INTO 'FoodItems' (ServingCount, MealType, MealID, Ing_Name, Food_Name)
 VALUES
 (8, 'Breakfast', 0, 'Eggs', 'Scrambled eggs'),
 (2, 'Lunch', 1, 'Tomato', 'Caprese salad'),
@@ -442,7 +460,9 @@ VALUES
 (5, 'Dessert', 48, 'Apple', 'Apple pie'),
 (9, 'Snack', 49, 'Mixed nuts', 'Trail mix');
 
-INSERT INTO Ingredients (Veggie, Fruit, Fats, Protein, Grains, TagId, FoodItem, Ing_Name)
+
+DROP TABLE IF EXISTS `Ingredients`;
+INSERT INTO 'Ingredients' (Veggie, Fruit, Fats, Protein, Grains, TagId, FoodItem, Ing_Name)
 VALUES
 (0, 1, 3, 7, 5, 0, 'Eggs', 'Scrambled eggs'),
 (1, 0, 8, 2, 9, 1, 'Tomato', 'Caprese salad'),
