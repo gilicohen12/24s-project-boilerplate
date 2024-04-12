@@ -35,7 +35,7 @@ def get_dayWithDate(Date):
     return the_response
 
     # Allows user to input new day
-    @day.route('/day', methods=['POST'])
+@day.route('/day', methods=['POST'])
 def add_new_day():
     
     # collecting data from the request object 
@@ -78,7 +78,7 @@ def add_new_day():
     return 'Successfully added new day!'
 
     # Changes a day based on date
-    @day.route('/day/<Date>', methods=['PUT'])
+@day.route('/day/<Date>', methods=['PUT'])
 def put_dayWithDate(Date):
     data = request.json
     current_app.logger.info(data)
@@ -102,7 +102,7 @@ def put_dayWithDate(Date):
     return 'Day updated!'
 
     # Changes current day
-    @day.route('/day', methods=['PUT'])
+@day.route('/day', methods=['PUT'])
 def put_day():
     data = request.json
     current_app.logger.info(data)
@@ -126,7 +126,7 @@ def put_day():
     db.get_db().commit()
     return 'Current day updated!'
 
-    @rday.route('/day/<Date>', methods=['DELETE'])
+@day.route('/day/<Date>', methods=['DELETE'])
 def delete_recipe(Date):
     # Constructing the DELETE query
     query = 'DELETE FROM Day WHERE Date = {}'.format(Date)
