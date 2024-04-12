@@ -6,8 +6,8 @@ CREATE DATABASE IF NOT EXISTS `MunchMasterPro` /*!40100 DEFAULT CHARACTER SET la
 
 USE `MunchMasterPro`;
 
-grant all privileges on classicmodels.* to 'webapp'@'%';
-flush privileges;
+GRANT ALL PRIVILEGES ON `MunchMasterPro`.* TO 'webapp'@'%';
+FLUSH PRIVILEGES;
 
 CREATE TABLE IF NOT EXISTS User (
     Username VARCHAR(14) PRIMARY KEY
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS Day (
     FOREIGN KEY (LogID) REFERENCES Log(LogID)
 );
 
-INSERT INTO Day(Date, VeggieGoal, FruitGoal, FatsGoal, ProteinGoal, GrainsGoal,VeganGoal,
+INSERT INTO Day(Date, VeggieGoal, FruitGoal, FatsGoal, ProteinGoal, GrainsGoal, VeganGoal,
                 VegetarianGoal, DairyFreeGoal, GlutenFreeGoal, LogID)
 VALUES(CURDATE(), 0, 0, 6, 7, 0, 0, 1, 1, 0, 1),
       ('2024-04-02', 1, 0, 8, 0, 2, 1, 1, 0, 0, 2),
