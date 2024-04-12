@@ -40,7 +40,7 @@ def add_new_recipe():
     
     # collecting data from the request object 
     data = request.json
-    current_app.logger.info(the_data)
+    current_app.logger.info(data)
 
     #extracting the variable
     Name = data['Name']
@@ -113,3 +113,27 @@ def delete_recipe(BlogID):
     db.get_db().commit()
 
     return 'Recipe from Blog ID {} deleted successfully!'.format(BlogID)
+
+
+@recipes.route('/recipes/<TagID>', methods=['PUT'])
+def put_new_tag():
+    
+    # collecting data from the request object 
+    data = request.json
+    current_app.logger.info(data)
+
+    #extracting the variable
+    ContainsNuts = data['ContainsNuts']
+    GlutenFree = data['GlutenFree']
+    Vegetarian = data['Vegetarian']
+    ContainsProtein = data['ContainsProtein']
+    FatFree = data['FatFree']
+    Vegan = data['Vegan']
+    TagID = data['TagID']
+
+    query = 'UPDATE Tags SET ContainsNuts = %s, GlutenFree = %s, Vegetarian = %s, ContainsProtein = %s, FatFree = %s,  Vegan = %s WHERE TagID = %s'
+    data= (ContainsNuts, GlutenFree, Vegetarian, ContainsProtein, FatFree, Vegan, TagID)
+    cursor = db.get_db().cursor()
+    r = cursor.execute(query, data)
+    db.get_db().commit()
+    return 'Tag updated!'
