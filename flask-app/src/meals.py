@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify, make_response, current_app
 from src import db
 
-Meal = Blueprint('Meal', __name__)
+meal = Blueprint('meal', __name__)
 
 # Get meals for user with particular MealID
-@Meal.route('/Meal/<MealID>', methods=['GET'])
+@meal.route('/Meal/<MealID>', methods=['GET'])
 def get_meal_with_MealID(MealID):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Meal WHERE id = %s', (MealID))
@@ -19,7 +19,7 @@ def get_meal_with_MealID(MealID):
     return the_response
 
 # Get all meals from the DB
-@Meal.route('/Meal', methods=['GET'])
+@meal.route('/Meal', methods=['GET'])
 def get_meal():
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Meal')
@@ -34,7 +34,7 @@ def get_meal():
     return the_response
 
 # Add new meal to meals
-@Meal.route('/Meal', methods=['POST'])
+@meal.route('/Meal', methods=['POST'])
 def add_new_meal():
     the_data = request.json
     current_app.logger.info(the_data)
@@ -54,7 +54,7 @@ def add_new_meal():
     return 'Successfully added new meal!'
 
 # Changes a meal based on meal id
-@Meal.route('/Meal/<MealID>', methods=['PUT'])
+@meal.route('/Meal/<MealID>', methods=['PUT'])
 def put_meal_with_MealID(MealID):
     data = request.json
     current_app.logger.info(data)
@@ -72,7 +72,7 @@ def put_meal_with_MealID(MealID):
     return 'Meal updated!'
 
 # Get meals for user with particular Date
-@Meal.route('/Meal/<Date>', methods=['GET'])
+@meal.route('/Meal/<Date>', methods=['GET'])
 def get_meal_with_Date(Date):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Meal WHERE Date = %s', (Date,))
@@ -87,7 +87,7 @@ def get_meal_with_Date(Date):
     return the_response
 
 # Changes a meal based on Date
-@Meal.route('/Meal/<Date>', methods=['PUT'])
+@meal.route('/Meal/<Date>', methods=['PUT'])
 def put_meal_with_Date(Date):
     data = request.json
     current_app.logger.info(data)
