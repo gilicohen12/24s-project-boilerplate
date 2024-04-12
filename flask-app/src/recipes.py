@@ -89,7 +89,7 @@ def put_recipe(RecipeID):
     return 'Recipe updated!'
 
 @recipes.route('/recipes/<RecipeID>', methods=['DELETE'])
-def delete_recipe(RecipeID):
+def delete_recipe_with_recipeID(RecipeID):
     # Constructing the DELETE query
     query = 'DELETE FROM Recipe WHERE RecipeID = {}'.format(RecipeID)
     current_app.logger.info(query)
@@ -102,7 +102,7 @@ def delete_recipe(RecipeID):
     return 'Recipe with ID {} deleted successfully!'.format(RecipeID)
 
 @recipes.route('/recipes/<BlogID>', methods=['DELETE'])
-def delete_recipe(BlogID):
+def delete_recipe_with_BlogID(BlogID):
     # Constructing the DELETE query
     query = 'DELETE FROM Recipe WHERE BlogID = {}'.format(BlogID)
     current_app.logger.info(query)
