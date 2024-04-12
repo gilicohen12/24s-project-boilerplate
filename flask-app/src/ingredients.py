@@ -25,7 +25,7 @@ def add_new_ingredient():
     
     # collecting data from the request object 
     all_ingredients = request.json
-    current_app.logger.info(the_data)
+    current_app.logger.info(all_ingredients)
 
     #extracting the variable
     ing_name = all_ingredients['ing_name']
@@ -53,11 +53,11 @@ def put_ingredient(ing_name):
     data = request.json
     current_app.logger.info(data)
 
-    protein = all_ingredients['protein']
-    grains = all_ingredients['grains']
-    fats = all_ingredients['fats']
-    veggie = all_ingredients['veggie']
-    fruit = all_ingredients['fruit']
+    protein = data['protein']
+    grains = data['grains']
+    fats = data['fats']
+    veggie = data['veggie']
+    fruit = data['fruit']
 
     query = 'UPDATE Ingredients SET protein = %s, grains = %s, fats = %s, veggie = %s, fruit = %s WHERE ing_name = %s'
     data= (protein, grains, fats, veggie, fruit, ing_name)
