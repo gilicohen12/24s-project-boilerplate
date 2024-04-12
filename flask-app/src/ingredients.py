@@ -22,7 +22,7 @@ def get_ingredients():
 
 # Get all the ingredients from the database based on a tagID
 @ingredients.route('/ingredients/<TagId>', methods=['GET'])
-def get_ingredients(TagId):
+def get_ingredients_from_tag(TagId):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Ingredients WHERE TagId = {}'.format(TagId))
@@ -37,7 +37,7 @@ def get_ingredients(TagId):
 
 # Get all the ingredients from the database based on the food item
 @ingredients.route('/ingredients/<FoodItem>', methods=['GET'])
-def get_ingredients(FoodItem):
+def get_ingredients_from_fooditem(FoodItem):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Ingredients WHERE TagId = {}'.format(FoodItem))
@@ -101,7 +101,7 @@ def put_ingredient(ing_name):
 
 # Edit an ingredient given a food item
 @ingredients.route('/ingredients/<FoodItem>', methods=['PUT'])
-def put_ingredient(foodItem):
+def put_ingredient_from_fooditem(foodItem):
     data = request.json
     current_app.logger.info(data)
 
