@@ -2,13 +2,13 @@ from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
 
-day = Blueprint('day', __name__)
+Day = Blueprint('Day', __name__)
 
 # Get everthing from day
-@day.route('/day', methods=['GET'])
+@Day.route('/day', methods=['GET'])
 def get_day():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from day')
+    cursor.execute('select * from Day')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -20,8 +20,8 @@ def get_day():
     return the_response
 
 # Get everything from a specific day
-@day.route('/day/<Date>', methods=['GET'])
-def get_dayWithDate(Date):
+@Day.route('/day/<Date>', methods=['GET'])
+def get_day_with_Date(Date):
     cursor = db.get_db().cursor()
     cursor.execute('select * from day where Date = {0}'.format(Date))
     row_headers = [x[0] for x in cursor.description]

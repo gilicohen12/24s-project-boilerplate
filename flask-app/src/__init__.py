@@ -37,8 +37,8 @@ def create_app():
     # from src.products.products  import products
     from src.recipes  import recipes
     from src.ingredients  import ingredients
-    from src.meals  import meals
-    from src.day  import day
+    from src.Meal  import Meals
+    from src.Day  import Day
 
     # Register the routes from each Blueprint with the app object
     # and give a url prefix to each
@@ -46,8 +46,8 @@ def create_app():
     # app.register_blueprint(products,    url_prefix='/p')
     app.register_blueprint(recipes,    url_prefix='/r')
     app.register_blueprint(ingredients,    url_prefix='/i')
-    app.register_blueprint(meals,    url_prefix='/m')
-    app.register_blueprint(day,    url_prefix='/d')
+    app.register_blueprint(Meal,    url_prefix='/m')
+    app.register_blueprint(Day,    url_prefix='/d')
 
     # Don't forget to return the app object
     return app
