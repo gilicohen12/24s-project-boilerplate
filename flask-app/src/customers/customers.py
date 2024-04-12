@@ -56,7 +56,7 @@ def put_customer():
     query = 'UPDATE customers SET company = %s, last_name = %s, first_name = %s, job_title = %s, business_phone = %s WHERE id = %s'
     data= (company, last_name, first_name, job_title, business_phone, cust_id)
     cursor = db.get_db().cursor()
-    r = cursor.execute(query, data)
+    cursor.execute(query, data)
     db.get_db().commit()
     return 'Customer updated!'
 
