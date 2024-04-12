@@ -114,7 +114,7 @@ def delete_recipe_with_BlogID(BlogID):
 
     return 'Recipe from Blog ID {} deleted successfully!'.format(BlogID)
 
-
+# update a recipe's tag given the TagID
 @recipes.route('/recipes/<TagID>', methods=['PUT'])
 def put_new_tag():
     
@@ -137,3 +137,18 @@ def put_new_tag():
     r = cursor.execute(query, data)
     db.get_db().commit()
     return 'Tag updated!'
+
+# Get the fields in Tag
+@recipes.route('/recipes/<TagID>', methods=['GET'])
+def get_recipes(TagID):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * from Tags where TagID = {0}'.format(TagID))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
