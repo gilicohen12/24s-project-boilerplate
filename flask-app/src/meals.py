@@ -36,7 +36,7 @@ def get_meals():
     return the_response
 
 # Add new meal to meals
-    @meal.route('/meal', methods=['POST'])
+@meal.route('/meal', methods=['POST'])
 def add_new_meal():
     
     # collecting data from the request object 
@@ -63,7 +63,7 @@ def add_new_meal():
     return 'Successfully added new meal!'
 
 # Changes a meal based on meal id
-    @meals.route('/meals/<MealID>', methods=['PUT'])
+@meals.route('/meals/<MealID>', methods=['PUT'])
 def put_ingredientWithMealID(MealID):
     data = request.json
     current_app.logger.info(data)
@@ -95,7 +95,7 @@ def get_mealsWithDate(Date):
     return the_response
 
     # Changes a meal based on Date
-    @meals.route('/meals/<Date>', methods=['PUT'])
+@meals.route('/meals/<Date>', methods=['PUT'])
 def put_mealsWithDate(Date):
     data = request.json
     current_app.logger.info(data)
