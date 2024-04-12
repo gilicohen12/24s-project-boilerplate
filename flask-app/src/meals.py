@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
 
+meals = Blueprint('meals', __name__)
+
 # Get meals for user with particular MealID
 @meals.route('/meals/<MealID>', methods=['GET'])
 def get_mealsWithID(MealID):
