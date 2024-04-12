@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify, make_response, current_app
-import json
 from src import db
 
 meals = Blueprint('meals', __name__)
@@ -8,7 +7,7 @@ meals = Blueprint('meals', __name__)
 @meals.route('/meals/<MealID>', methods=['GET'])
 def get_mealsWithID(MealID):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from meals where id = {0}'.format(MealID))
+    cursor.execute('SELECT * FROM meals WHERE id = %s', (MealID,))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -19,12 +18,11 @@ def get_mealsWithID(MealID):
     the_response.mimetype = 'application/json'
     return the_response
 
-
 # Get all meals from the DB
 @meals.route('/meals', methods=['GET'])
 def get_meals():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from meals')
+    cursor.execute('SELECT * FROM meals')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -36,54 +34,48 @@ def get_meals():
     return the_response
 
 # Add new meal to meals
-@meal.route('/meal', methods=['POST'])
+@meals.route('/meals', methods=['POST'])
 def add_new_meal():
-    
-    # collecting data from the request object 
     the_data = request.json
     current_app.logger.info(the_data)
 
-    #extracting the variable
     MealType = the_data['meals_MealType']
     Date = the_data['meals_Date']
     MealID = the_data['meals_MealID']
 
-    # Constructing the query
-    query = 'insert into meals (MealType, Date, MealID) values ("'
-    query += MealType + '", "'
-    query += Date + '", "'
-    query += MealID + '", '
+    query = 'INSERT INTO meals (MealType, Date, MealID) VALUES (%s, %s, %s)'
+    data = (MealType, Date, MealID)
     current_app.logger.info(query)
 
-    # executing and committing the insert statement 
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, data)
     db.get_db().commit()
-    
+
     return 'Successfully added new meal!'
 
 # Changes a meal based on meal id
 @meals.route('/meals/<MealID>', methods=['PUT'])
-def put_ingredientWithMealID(MealID):
+def put_mealWithMealID(MealID):
     data = request.json
     current_app.logger.info(data)
 
     MealType = data['meals_MealType']
     Date = data['meals_Date']
 
-    query = 'UPDATE Ingredients SET MealType = %s, Date = %s, WHERE MealID = %s'
-    data= (MealType, Date, MealID)
+    query = 'UPDATE meals SET MealType = %s, Date = %s WHERE MealID = %s'
+    data = (MealType, Date, MealID)
+
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
     db.get_db().commit()
+
     return 'Meal updated!'
 
-
-    # Get meals for user with particular Date
-@meals.route('/meals/<Date>', methods=['GET'])
+# Get meals for user with particular Date
+@meals.route('/meals/date/<Date>', methods=['GET'])
 def get_mealsWithDate(Date):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from meals where Date = {0}'.format(Date))
+    cursor.execute('SELECT * FROM meals WHERE Date = %s', (Date,))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -94,18 +86,20 @@ def get_mealsWithDate(Date):
     the_response.mimetype = 'application/json'
     return the_response
 
-    # Changes a meal based on Date
-@meals.route('/meals/<Date>', methods=['PUT'])
-def put_mealsWithDate(Date):
+# Changes a meal based on Date
+@meals.route('/meals/date/<Date>', methods=['PUT'])
+def put_mealWithDate(Date):
     data = request.json
     current_app.logger.info(data)
 
     MealType = data['meals_MealType']
     MealID = data['meals_MealID']
 
-    query = 'UPDATE Ingredients SET MealType = %s, MealID = %s, WHERE Date = %s'
-    data= (MealType, Date, MealID)
+    query = 'UPDATE meals SET MealType = %s, MealID = %s WHERE Date = %s'
+    data = (MealType, MealID, Date)
+
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
     db.get_db().commit()
+
     return 'Meal updated!'
