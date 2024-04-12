@@ -21,11 +21,11 @@ def get_ingredients():
 
 
 # Get all the ingredients from the database based on a tagID
-@ingredients.route('/ingredients/<tagID>', methods=['GET'])
-def get_ingredients(tagID):
+@ingredients.route('/ingredients/<TagId>', methods=['GET'])
+def get_ingredients(TagId):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT * FROM ingredients WHERE tagID = {}'.format(tagID))
+    cursor.execute('SELECT * FROM Ingredients WHERE TagId = {}'.format(TagId))
     column_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -36,11 +36,11 @@ def get_ingredients(tagID):
 
 
 # Get all the ingredients from the database based on the food item
-@ingredients.route('/ingredients/<foodItem>', methods=['GET'])
-def get_ingredients(foodItem):
+@ingredients.route('/ingredients/<FoodItem>', methods=['GET'])
+def get_ingredients(FoodItem):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT * FROM ingredients WHERE tagID = {}'.format(foodItem))
+    cursor.execute('SELECT * FROM Ingredients WHERE TagId = {}'.format(FoodItem))
     column_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -58,18 +58,18 @@ def add_new_ingredient():
     current_app.logger.info(all_ingredients)
 
     #extracting the variable
-    ing_name = all_ingredients['ing_name']
-    tag_id = all_ingredients['tag_id']
-    foodItem = all_ingredients['foodItem']
-    protein = all_ingredients['protein']
-    grains = all_ingredients['grains']
-    fats = all_ingredients['fats']
-    veggie = all_ingredients['veggie']
-    fruit = all_ingredients['fruit']
+    ing_name = all_ingredients['Ing_Name']
+    tag_id = all_ingredients['TagId']
+    foodItem = all_ingredients['FoodItem']
+    protein = all_ingredients['Protein']
+    grains = all_ingredients['Grains']
+    fats = all_ingredients['Fats']
+    veggie = all_ingredients['Veggie']
+    fruit = all_ingredients['Fruit']
 
     # Constructing the query
-    query = 'INSERT INTO Ingredients (ing_name, foodItem, tag_id, protein, grains, fats, veggie, fruit) VALUES' \
-    '(ing_name = %s, foodItem = %s, tag_id = %s, protein = %s, grains = %s, fats = %s, veggie = %s, fruit= %s)'
+    query = 'INSERT INTO Ingredients (Ing_Name, FoodItem, TagId, Protein, Grains, Fats, Veggie, Fruit) VALUES' \
+    '(Ing_Name = %s, FoodItem = %s, TagId = %s, Protein = %s, Grains = %s, Fats = %s, Veggie = %s, Fruit= %s)'
     data= (ing_name, foodItem, tag_id, protein, grains, fats, veggie, fruit)
 
     # executing and committing the insert statement 
@@ -80,26 +80,27 @@ def add_new_ingredient():
     return 'Successfully added a new ingredient!'
 
 # Edit an ingredient
-@ingredients.route('/ingredients/<ing_name>', methods=['PUT'])
+@ingredients.route('/ingredients/<Ing_Name>', methods=['PUT'])
 def put_ingredient(ing_name):
     data = request.json
     current_app.logger.info(data)
 
-    protein = data['protein']
-    grains = data['grains']
-    fats = data['fats']
-    veggie = data['veggie']
-    fruit = data['fruit']
+    protein = data['Protein']
+    grains = data['Grains']
+    fats = data['Fats']
+    veggie = data['Veggie']
+    fruit = data['Fruit']
+    food_item = data['FoodItem']
 
-    query = 'UPDATE Ingredients SET protein = %s, grains = %s, fats = %s, veggie = %s, fruit = %s WHERE ing_name = %s'
-    data= (protein, grains, fats, veggie, fruit, ing_name)
+    query = 'UPDATE Ingredients SET FoodItem = %s, protein = %s, grains = %s, fats = %s, veggie = %s, fruit = %s WHERE ing_name = %s'
+    data= (food_item, protein, grains, fats, veggie, fruit, ing_name)
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
     db.get_db().commit()
     return 'Ingredient updated!'
 
 # Edit an ingredient given a food item
-@ingredients.route('/ingredients/<foodItem>', methods=['PUT'])
+@ingredients.route('/ingredients/<FoodItem>', methods=['PUT'])
 def put_ingredient(foodItem):
     data = request.json
     current_app.logger.info(data)
@@ -110,7 +111,7 @@ def put_ingredient(foodItem):
     veggie = data['veggie']
     fruit = data['fruit']
 
-    query = 'UPDATE Ingredients SET protein = %s, grains = %s, fats = %s, veggie = %s, fruit = %s WHERE foodItem = %s'.format(foodItem)
+    query = 'UPDATE Ingredients SET protein = %s, grains = %s, fats = %s, veggie = %s, fruit = %s WHERE FoodItem = %s'.format(foodItem)
     data= (protein, grains, fats, veggie, fruit, foodItem)
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
