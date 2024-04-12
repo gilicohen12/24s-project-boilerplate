@@ -2,10 +2,10 @@ from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
 
-Day = Blueprint('Day', __name__)
+day = Blueprint('day', __name__)
 
 # Get everthing from day
-@Day.route('/day', methods=['GET'])
+@day.route('/day', methods=['GET'])
 def get_day():
     cursor = db.get_db().cursor()
     cursor.execute('select * from Day')
@@ -20,7 +20,7 @@ def get_day():
     return the_response
 
 # Get everything from a specific day
-@Day.route('/day/<Date>', methods=['GET'])
+@day.route('/day/<Date>', methods=['GET'])
 def get_day_with_Date(Date):
     cursor = db.get_db().cursor()
     cursor.execute('select * from day where Date = {0}'.format(Date))
@@ -79,7 +79,7 @@ def add_new_day():
 
     # Changes a day based on date
 @day.route('/day/<Date>', methods=['PUT'])
-def put_dayWithDate(Date):
+def put_day_with_date(Date):
     data = request.json
     current_app.logger.info(data)
 
