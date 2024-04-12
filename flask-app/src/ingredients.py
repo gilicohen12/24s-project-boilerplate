@@ -20,6 +20,21 @@ def get_ingredients():
     return jsonify(json_data)
 
 
+# Get all the ingredients from the database based on a tagID
+@ingredients.route('/ingredients/<tagID>', methods=['GET'])
+def get_ingredients(tagID):
+    # get a cursor object from the database
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM inredients WHERE tagID = {}'.format(tagID))
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+
+    return jsonify(json_data)
+
+# Add a new ingredient
 @ingredients.route('/ingredients', methods=['POST'])
 def add_new_ingredient():
     
@@ -29,6 +44,7 @@ def add_new_ingredient():
 
     #extracting the variable
     ing_name = all_ingredients['ing_name']
+    tag_id = all_ingredients['tag_id']
     protein = all_ingredients['protein']
     grains = all_ingredients['grains']
     fats = all_ingredients['fats']
@@ -36,9 +52,9 @@ def add_new_ingredient():
     fruit = all_ingredients['fruit']
 
     # Constructing the query
-    query = 'INSERT INTO Ingredients (ing_name, protein, grains, fats, veggie, fruit) VALUES' \
-    '(ing_name = %s, protein = %s, grains = %s, fats = %s, veggie = %s, fruit= %s)'
-    data= (ing_name, protein, grains, fats, veggie, fruit)
+    query = 'INSERT INTO Ingredients (ing_name, tag_id, protein, grains, fats, veggie, fruit) VALUES' \
+    '(ing_name = %s, tag_id = %s, protein = %s, grains = %s, fats = %s, veggie = %s, fruit= %s)'
+    data= (ing_name, tag_id, protein, grains, fats, veggie, fruit)
 
     # executing and committing the insert statement 
     cursor = db.get_db().cursor()
@@ -47,7 +63,7 @@ def add_new_ingredient():
     
     return 'Successfully added a new ingredient!'
 
-
+# Edit an ingredient
 @ingredients.route('/ingredients/<ing_name>', methods=['PUT'])
 def put_ingredient(ing_name):
     data = request.json
