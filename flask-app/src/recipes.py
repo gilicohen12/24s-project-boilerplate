@@ -115,7 +115,7 @@ def delete_recipe_with_BlogID(BlogID):
     return 'Recipe from Blog ID {} deleted successfully!'.format(BlogID)
 
 @recipes.route('/recipes/<BlogID>', methods=['GET'])
-def get_recipes_recipeID(BlogID):
+def get_recipes_blogID(BlogID):
     cursor = db.get_db().cursor()
     cursor.execute('select * from Recipe where RecipeID = {0}'.format(BlogID))
     row_headers = [x[0] for x in cursor.description]
