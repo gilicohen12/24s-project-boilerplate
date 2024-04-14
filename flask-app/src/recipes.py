@@ -22,7 +22,7 @@ def get_all_recipes():
 
 # Get customer detail for customer with particular userID
 @recipes.route('/recipes/<RecipeID>', methods=['GET'])
-def get_recipes(RecipeID):
+def get_recipes_recipeID(RecipeID):
     cursor = db.get_db().cursor()
     cursor.execute('select * from customers where RecipeID = {0}'.format(RecipeID))
     row_headers = [x[0] for x in cursor.description]
@@ -140,7 +140,7 @@ def put_new_tag():
 
 # Get the fields in Tag
 @recipes.route('/recipes/<TagID>', methods=['GET'])
-def get_recipes(TagID):
+def get_recipes_tagID(TagID):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * from Tags where TagID = {0}'.format(TagID))
     row_headers = [x[0] for x in cursor.description]
