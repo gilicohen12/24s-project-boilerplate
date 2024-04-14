@@ -5,7 +5,7 @@ from src import db
 
 recipes = Blueprint('recipes', __name__)
 
-# Get all customers from the DB
+# Get all recipes from the DB
 @recipes.route('/recipes', methods=['GET'])
 def get_all_recipes():
     cursor = db.get_db().cursor()
@@ -24,7 +24,7 @@ def get_all_recipes():
 @recipes.route('/recipes/<RecipeID>', methods=['GET'])
 def get_recipes_recipeID(RecipeID):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from customers where RecipeID = {0}'.format(RecipeID))
+    cursor.execute('select * from Recipe where RecipeID = {0}'.format(RecipeID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -68,7 +68,7 @@ def add_new_recipe():
     return 'Success!'
 
 
-@recipes.route('/customers/<RecipeID>', methods=['PUT'])
+@recipes.route('/recipes/<RecipeID>', methods=['PUT'])
 def put_recipe(RecipeID):
     data = request.json
     current_app.logger.info(data)
@@ -81,7 +81,7 @@ def put_recipe(RecipeID):
     Origin = data['Origin']
 
 
-    query = 'UPDATE customers SET Name = %s, Story = %s, Directions = %s, TagID = %s, BlogID = %s,  Origin = %s WHERE RecipeID = %s'
+    query = 'UPDATE Recipe SET Name = %s, Story = %s, Directions = %s, TagID = %s, BlogID = %s,  Origin = %s WHERE RecipeID = %s'
     data= (Name, Story, Directions, TagID, BlogID, Origin, RecipeID)
     cursor = db.get_db().cursor()
     r = cursor.execute(query, data)
@@ -113,6 +113,21 @@ def delete_recipe_with_BlogID(BlogID):
     db.get_db().commit()
 
     return 'Recipe from Blog ID {} deleted successfully!'.format(BlogID)
+
+@recipes.route('/recipes/<BlogID>', methods=['GET'])
+def get_recipes_recipeID(BlogID):
+    cursor = db.get_db().cursor()
+    cursor.execute('select * from Recipe where RecipeID = {0}'.format(BlogID))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
 
 # update a recipe's tag given the TagID
 @recipes.route('/recipes/<TagID>', methods=['PUT'])

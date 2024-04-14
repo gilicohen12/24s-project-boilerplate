@@ -39,9 +39,10 @@ def add_new_meal():
     the_data = request.json
     current_app.logger.info(the_data)
 
-    MealType = the_data['Meal_MealType']
-    Date = the_data['Meal_Date']
-    MealID = the_data['Meal_MealID']
+   
+    MealType = the_data['MealType']
+    Date = the_data['Date']
+    
 
     query = 'INSERT INTO Meal (MealType, Date, MealID) VALUES (%s, %s, %s)'
     data = (MealType, Date, MealID)
@@ -59,8 +60,8 @@ def put_meal_with_MealID(MealID):
     data = request.json
     current_app.logger.info(data)
 
-    MealType = data['Meal_MealType']
-    Date = data['Meal_Date']
+    MealType = data['MealType']
+    Date = data['Date']
 
     query = 'UPDATE Meal SET MealType = %s, Date = %s WHERE MealID = %s'
     data = (MealType, Date, MealID)
@@ -92,8 +93,8 @@ def put_meal_with_Date(Date):
     data = request.json
     current_app.logger.info(data)
 
-    MealType = data['Meal_MealType']
-    MealID = data['Meal_MealID']
+    MealType = data['MealType']
+    MealID = data['MealID']
 
     query = 'UPDATE Meal SET MealType = %s, MealID = %s WHERE Date = %s'
     data = (MealType, MealID, Date)
