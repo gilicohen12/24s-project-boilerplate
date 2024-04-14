@@ -38,3 +38,34 @@ def add_new_posts(id):
     db.get_db().commit()
     
     return 'A new post was added!'
+
+#Allow the user to edit their blog post
+@posts.route('/posts/<id>', methods=['PUT'])
+def put_posts(id):
+    data = request.json
+    current_app.logger.info(data)
+
+    BlogID = data['posts_BlogID']
+    Content = data['posts_BlogID']
+    Title = data['posts_Title']
+
+    query = 'UPDATE Posts SET BlogID = %s, Content = %s, Title = %s'
+    data= (BlogID, Content, Title)
+    cursor = db.get_db().cursor()
+    cursor.execute(query, data)
+    db.get_db().commit()
+    return 'Blog post updated!'
+
+#Allow the user to delete a blog post
+@posts.route('/posts/<id>', methods=['DELETE'])
+def delete_recipe_with_postID(id):
+    # Constructing the DELETE query
+    query = 'DELETE FROM Posts WHERE id = {}'.format(id)
+    current_app.logger.info(query)
+
+    # Executing and committing the DELETE statement
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return 'Posts with ID {} deleted successfully!'.format(id)
