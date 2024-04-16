@@ -36,11 +36,11 @@ def get_ingredients_from_tag(TagId):
 
 
 # Get all the ingredients from the database based on the food item
-@ingredients.route('/ingredients/<FoodItem>', methods=['GET'])
-def get_ingredients_from_fooditem(FoodItem):
+@ingredients.route('/ingredients/<Food_Name>', methods=['GET'])
+def get_ingredients_from_fooditem(Food_Name):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT * FROM Ingredients WHERE FoodItem = {}'.format(FoodItem))
+    cursor.execute('SELECT * FROM Ingredients WHERE Food_Name = {}'.format(Food_Name))
     column_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()

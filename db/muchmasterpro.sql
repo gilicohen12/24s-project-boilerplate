@@ -70,9 +70,9 @@ CREATE TABLE IF NOT EXISTS FoodItems (
 );
 
 INSERT INTO FoodItems(Food_Name, ServingCount, MealID)
-VALUES('Fruit salad', 1, 1),
-      ('Cheese plate', 2, 2),
-      ('Chocolate ice cream', 4, 3);
+VALUES('FruitSalad', 1, 1),
+      ('CheesePlate', 2, 2),
+      ('ChocolateIceCream', 4, 3);
 
 CREATE TABLE IF NOT EXISTS Tags (
     TagID INT AUTO_INCREMENT PRIMARY KEY,
@@ -105,9 +105,9 @@ CREATE TABLE IF NOT EXISTS Ingredients (
 );
 
 INSERT INTO Ingredients(Ing_Name, Veggie, Fruit, Fats, Protein, Grains, TagID, Food_Name)
-VALUES('Banana', 0, 1, 1, 2, 0, 1, 'Fruit salad'),
-      ('Cheddar cheese', 0, 0, 9, 7, 0, 2, 'Cheese plate'),
-      ('Chocolate', 0, 0, 9, 2, 0, 3, 'Chocolate ice cream');
+VALUES('Banana', 0, 1, 1, 2, 0, 1, 'FruitSalad'),
+      ('Cheddar cheese', 0, 0, 9, 7, 0, 2, 'CheesePlate'),
+      ('Chocolate', 0, 0, 9, 2, 0, 3, 'ChocolateIceCream');
 
 CREATE TABLE IF NOT EXISTS Blog (
     BlogID INT AUTO_INCREMENT PRIMARY KEY,
