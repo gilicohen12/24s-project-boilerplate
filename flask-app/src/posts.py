@@ -24,12 +24,12 @@ def add_new_posts(id):
     current_app.logger.info(the_data)
 
     #extracting the variable
-    BlogID = the_data['posts_BlogID']
-    Content = the_data['posts_Content']
-    Title = the_data['posts_Title']
+    BlogID = the_data['BlogID']
+    Content = the_data['Content']
+    Title = the_data['Title']
 
     # Constructing the query
-    query = 'INSERT INTO posts (posts_BlogID, posts_Content, posts_Title) VALUES (%s, %s, %s)'
+    query = 'INSERT INTO posts (BlogID, Content, Title) VALUES (%s, %s, %s)'
     current_app.logger.info(query)
 
     # executing and committing the insert statement 
@@ -45,9 +45,9 @@ def put_posts(id):
     data = request.json
     current_app.logger.info(data)
 
-    BlogID = data['posts_BlogID']
-    Content = data['posts_BlogID']
-    Title = data['posts_Title']
+    BlogID = data['BlogID']
+    Content = data['BlogID']
+    Title = data['Title']
 
     query = 'UPDATE Posts SET BlogID = %s, Content = %s, Title = %s'
     data= (BlogID, Content, Title)

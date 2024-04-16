@@ -123,53 +123,73 @@ def get_recipes_tagID(TagID):
     the_response.mimetype = 'application/json'
     return the_response
 
-@recipes.route('/recipes/<Username>', methods=['GET'])
-def get_recipes_blogID(Username):
-    cursor = db.get_db().cursor()
-    cursor.execute('SELECT BlogID FROM Blog WHERE Username = %s', (Username,))
-    blog_id = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
+@recipes.route('/recipesUsername/<username>', methods=['GET'])
+def get_recipes_username(username):
+    # Construct the SQL query with parameterization to avoid SQL injection
+    query = 'SELECT BlogID FROM Blog WHERE Username = %s'
+    current_app.logger.info(query)
 
-    # Use the obtained BlogID to select recipes
-    cursor.execute('SELECT * FROM Recipe WHERE BlogID = %s', (blog_id,))
-    row_headers = [x[0] for x in cursor.description]
+    # Execute the query with the username parameter
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (username,))
+
+    row = cursor.fetchone()
+    BlogID = row[0]
+  
+    query = 'SELECT * FROM Recipe WHERE BlogID = %s'
+    current_app.logger.info(query)
+
+    # Execute the query with the username parameter
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (BlogID,))
+    
+    # Fetch the results and prepare JSON response
+    column_headers = [x[0] for x in cursor.description]
     json_data = []
-    theData = cursor.fetchall()
-    for row in theData:
-        json_data.append(dict(zip(row_headers, row)))
-    the_response = make_response(jsonify(json_data))
-    the_response.status_code = 200
-    the_response.mimetype = 'application/json'
-    return the_response
+    
+    the_data = cursor.fetchall()
+    
+    for row in the_data:
+        json_data.append(dict(zip(column_headers, row)))
+    
+    return jsonify(json_data)
+    # BlogID = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
+    # current_app.logger.info("BlogID: " + BlogID)
+    # # Use the obtained BlogID to select recipes
+    # cursor.execute('SELECT * FROM Recipe WHERE BlogID = %s', (BlogID,))
+    # row_headers = [x[0] for x in cursor.description]
+    # json_data = []
+    # theData = cursor.fetchall()
+    # for row in theData:
+    #     json_data.append(dict(zip(row_headers, row)))
+    # the_response = make_response(jsonify(json_data))
+    # the_response.status_code = 200
+    # the_response.mimetype = 'application/json'
+    # return Username
 
 @recipes.route('/recipes/<Username>', methods=['POST'])
 def add_new_recipe(Username):
-    
+    cursor = db.get_db().cursor()
     # collecting data from the request object 
+    cursor.execute('SELECT BlogID FROM Blog WHERE Username = %s', (Username))  
+    BlogID = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
+    
     data = request.json
     current_app.logger.info(data)
-
     #extracting the variable
     Name = data['Name']
     Story = data['Story']
     Directions = data['Directions']
     TagID = data['TagID']
-    cursor.execute('SELECT BlogID FROM Blog WHERE Username = %s', (Username,))  
-    BlogID = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
     Origin = data['Origin']
 
     # Constructing the query
-    query = 'insert into Recipe (Name, Story, Directions, TagID, BlogID, Origin) values ("'
-    query += Name + '", "'
-    query += Story + '", "'
-    query += Directions + '", '
-    query += TagID + '", '
-    query += BlogID + '", '
-    query += Origin + ')'
-    current_app.logger.info(query)
+    query = 'INSERT INTO Recipe (Name, Story, Directions, TagID, BlogID, Origin) VALUES (%s, %s, %s, %s, %s, %s)'
+    values = (Name, Story, Directions, TagID, BlogID, Origin)
 
     # executing and committing the insert statement 
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, values)
     db.get_db().commit()
     
     return 'Success!'

@@ -160,3 +160,24 @@ def post_username(Username):
     db.get_db().commit()
     
     return 'Success!'
+
+@day.route('/day/Username', methods=['GET'])
+def get_username():
+    query = '''
+        SELECT *
+        FROM Blog
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+
+    # fetch all the data from the cursor
+    theData = cursor.fetchall()
+
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+    
+    return jsonify(json_data)
