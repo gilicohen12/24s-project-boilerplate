@@ -138,3 +138,25 @@ def delete_recipe(Date):
     db.get_db().commit()
 
     return 'Goal from Day {} deleted successfully!'.format(Date)
+
+@day.route('/day/<Username>', methods=['POST'])
+def post_username(Username):
+    query = 'insert into User (Username) values ("'
+    query += Username + '")'
+    current_app.logger.info(query)
+
+    # executing and committing the insert statement 
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    query = 'insert into Blog (Username) values ("'
+    query += Username + '")'
+    current_app.logger.info(query)
+
+    # executing and committing the insert statement 
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    
+    return 'Success!'

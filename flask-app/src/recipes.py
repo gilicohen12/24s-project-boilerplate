@@ -114,10 +114,14 @@ def delete_recipe_with_BlogID(BlogID):
 
     return 'Recipe from Blog ID {} deleted successfully!'.format(BlogID)
 
-@recipes.route('/recipes/<BlogID>', methods=['GET'])
-def get_recipes_blogID(BlogID):
+@recipes.route('/recipes/<Username>', methods=['GET'])
+def get_recipes_blogID(Username):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from Recipe where RecipeID = {0}'.format(BlogID))
+    cursor.execute('SELECT BlogID FROM Blog WHERE Username = %s', (Username,))
+    blog_id = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
+
+    # Use the obtained BlogID to select recipes
+    cursor.execute('SELECT * FROM Recipe WHERE BlogID = %s', (blog_id,))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -127,6 +131,7 @@ def get_recipes_blogID(BlogID):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
 
 
 # update a recipe's tag given the TagID
