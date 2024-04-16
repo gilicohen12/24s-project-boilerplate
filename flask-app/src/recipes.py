@@ -36,17 +36,25 @@ def get_recipes_recipeID(RecipeID):
     return the_response
 
 
-@recipes.route('/recipes/<RecipeID>', methods=['PUT'])
-def put_recipe(RecipeID):
+@recipes.route('/recipes/update', methods=['PUT'])
+def put_recipe():
     data = request.json
     current_app.logger.info(data)
-    RecipeID = data[RecipeID]
+    
+    RecipeID = str(data['RecipeID'])
     Name = data['Name']
     Story = data['Story']
     Directions = data['Directions']
-    TagID = data['TagID']
-    BlogID = data['BlogID']
+    TagID = str(data['TagID'])
+    BlogID = str(data['BlogID'])
     Origin = data['Origin']
+    ContainsNuts = data['ContainsNuts']
+    ContainsProtein = data['ContainsProtein']
+    DairyFree = data['DairyFree']
+    FatFree = data['FatFree']
+    GlutenFree = data['GlutenFree']
+    Vegan = data['Vegan']
+    Vegetarian = data['Vegetarian']
 
 
     query = 'UPDATE Recipe SET Name = %s, Story = %s, Directions = %s, TagID = %s, BlogID = %s,  Origin = %s WHERE RecipeID = %s'
@@ -54,6 +62,12 @@ def put_recipe(RecipeID):
     cursor = db.get_db().cursor()
     r = cursor.execute(query, data)
     db.get_db().commit()
+
+    # query = 'UPDATE Tag SET ContainsNuts = %s, ContainsProtein = %s, DairyFree = %s, FatFree = %s, GlutenFree = %s,  Vegan = %s, Vegetarian = %s WHERE TagID = %s'
+    # data= (ContainsNuts, ContainsProtein, DairyFree, FatFree, GlutenFree, Vegan, Vegetarian, TagID)
+    # cursor = db.get_db().cursor()
+    # r = cursor.execute(query, data)
+    # db.get_db().commit()
     return 'Recipe updated!'
 
 @recipes.route('/recipes/<RecipeID>', methods=['DELETE'])
