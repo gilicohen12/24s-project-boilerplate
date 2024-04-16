@@ -4,15 +4,34 @@ from src import db
 posts = Blueprint('posts', __name__)
 
 # Get all the posts from blog ID
-@posts.route('/posts/<id>', methods=['GET'])
-def get_posts_detail(id):
-    query = 'SELECT * FROM posts WHERE BlogID = %s'
+@posts.route('/posts/<username>', methods=['GET'])
+def get_posts_username(username):
+    # Construct the SQL query with parameterization to avoid SQL injection
+    query = 'SELECT BlogID FROM Blog WHERE Username = %s'
     current_app.logger.info(query)
-    
+
+    # Execute the query with the username parameter
     cursor = db.get_db().cursor()
-    cursor.execute(query, (id,))
+    cursor.execute(query, (username,))
+
+    row = cursor.fetchone()
+    BlogID = row[0]
+  
+    query = 'SELECT * FROM Post WHERE BlogID = %s'
+    current_app.logger.info(query)
+
+    # Execute the query with the username parameter
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (BlogID,))
+    
+    # Fetch the results and prepare JSON response
     column_headers = [x[0] for x in cursor.description]
-    json_data = [dict(zip(column_headers, row)) for row in cursor.fetchall()]
+    json_data = []
+    
+    the_data = cursor.fetchall()
+    
+    for row in the_data:
+        json_data.append(dict(zip(column_headers, row)))
     
     return jsonify(json_data)
 
