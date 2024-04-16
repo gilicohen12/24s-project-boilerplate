@@ -136,7 +136,7 @@ def get_recipes_username(username):
     row = cursor.fetchone()
     BlogID = row[0]
   
-    query = 'SELECT * FROM Recipe WHERE BlogID = %s'
+    query = 'SELECT * FROM Recipe r JOIN Tags t ON r.TagID = t.TagID WHERE BlogID = %s'
     current_app.logger.info(query)
 
     # Execute the query with the username parameter
