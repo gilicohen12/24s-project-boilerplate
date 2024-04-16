@@ -48,7 +48,7 @@ def add_new_posts(id):
     Title = the_data['Title']
 
     # Constructing the query
-    query = 'INSERT INTO posts (BlogID, Content, Title) VALUES (%s, %s, %s)'
+    query = 'INSERT INTO Post (BlogID, Content, Title) VALUES (%s, %s, %s)'
     current_app.logger.info(query)
 
     # executing and committing the insert statement 
@@ -68,7 +68,7 @@ def put_posts(id):
     Content = data['BlogID']
     Title = data['Title']
 
-    query = 'UPDATE Posts SET BlogID = %s, Content = %s, Title = %s'
+    query = 'UPDATE Post SET BlogID = %s, Content = %s, Title = %s'
     data= (BlogID, Content, Title)
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
@@ -79,7 +79,7 @@ def put_posts(id):
 @posts.route('/posts/<id>', methods=['DELETE'])
 def delete_recipe_with_postID(id):
     # Constructing the DELETE query
-    query = 'DELETE FROM Posts WHERE id = {}'.format(id)
+    query = 'DELETE FROM Post WHERE id = {}'.format(id)
     current_app.logger.info(query)
 
     # Executing and committing the DELETE statement
