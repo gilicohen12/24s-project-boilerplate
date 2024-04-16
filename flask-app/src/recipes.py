@@ -35,8 +35,8 @@ def get_recipes_recipeID(RecipeID):
     the_response.mimetype = 'application/json'
     return the_response
 
-@recipes.route('/recipes', methods=['POST'])
-def add_new_recipe():
+@recipes.route('/recipes/<Username>', methods=['POST'])
+def add_new_recipe(Username):
     
     # collecting data from the request object 
     data = request.json
@@ -47,7 +47,8 @@ def add_new_recipe():
     Story = data['Story']
     Directions = data['Directions']
     TagID = data['TagID']
-    BlogID = data['BlogID']
+    cursor.execute('SELECT BlogID FROM Blog WHERE Username = %s', (Username,))  
+    BlogID = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
     Origin = data['Origin']
 
     # Constructing the query

@@ -40,7 +40,7 @@ def get_ingredients_from_tag(TagId):
 def get_ingredients_from_fooditem(FoodItem):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT * FROM Ingredients WHERE TagId = {}'.format(FoodItem))
+    cursor.execute('SELECT * FROM Ingredients WHERE FoodItem = {}'.format(FoodItem))
     column_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
