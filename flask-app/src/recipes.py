@@ -35,39 +35,6 @@ def get_recipes_recipeID(RecipeID):
     the_response.mimetype = 'application/json'
     return the_response
 
-@recipes.route('/recipes/<Username>', methods=['POST'])
-def add_new_recipe(Username):
-    
-    # collecting data from the request object 
-    data = request.json
-    current_app.logger.info(data)
-
-    #extracting the variable
-    Name = data['Name']
-    Story = data['Story']
-    Directions = data['Directions']
-    TagID = data['TagID']
-    cursor.execute('SELECT BlogID FROM Blog WHERE Username = %s', (Username,))  
-    BlogID = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
-    Origin = data['Origin']
-
-    # Constructing the query
-    query = 'insert into Recipe (Name, Story, Directions, TagID, BlogID, Origin) values ("'
-    query += Name + '", "'
-    query += Story + '", "'
-    query += Directions + '", '
-    query += TagID + '", '
-    query += BlogID + '", '
-    query += Origin + ')'
-    current_app.logger.info(query)
-
-    # executing and committing the insert statement 
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    db.get_db().commit()
-    
-    return 'Success!'
-
 
 @recipes.route('/recipes/<RecipeID>', methods=['PUT'])
 def put_recipe(RecipeID):
@@ -115,24 +82,6 @@ def delete_recipe_with_BlogID(BlogID):
 
     return 'Recipe from Blog ID {} deleted successfully!'.format(BlogID)
 
-@recipes.route('/recipes/<Username>', methods=['GET'])
-def get_recipes_blogID(Username):
-    cursor = db.get_db().cursor()
-    cursor.execute('SELECT BlogID FROM Blog WHERE Username = %s', (Username,))
-    blog_id = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
-
-    # Use the obtained BlogID to select recipes
-    cursor.execute('SELECT * FROM Recipe WHERE BlogID = %s', (blog_id,))
-    row_headers = [x[0] for x in cursor.description]
-    json_data = []
-    theData = cursor.fetchall()
-    for row in theData:
-        json_data.append(dict(zip(row_headers, row)))
-    the_response = make_response(jsonify(json_data))
-    the_response.status_code = 200
-    the_response.mimetype = 'application/json'
-    return the_response
-
 
 
 # update a recipe's tag given the TagID
@@ -173,3 +122,54 @@ def get_recipes_tagID(TagID):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+@recipes.route('/recipes/<Username>', methods=['GET'])
+def get_recipes_blogID(Username):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT BlogID FROM Blog WHERE Username = %s', (Username,))
+    blog_id = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
+
+    # Use the obtained BlogID to select recipes
+    cursor.execute('SELECT * FROM Recipe WHERE BlogID = %s', (blog_id,))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+@recipes.route('/recipes/<Username>', methods=['POST'])
+def add_new_recipe(Username):
+    
+    # collecting data from the request object 
+    data = request.json
+    current_app.logger.info(data)
+
+    #extracting the variable
+    Name = data['Name']
+    Story = data['Story']
+    Directions = data['Directions']
+    TagID = data['TagID']
+    cursor.execute('SELECT BlogID FROM Blog WHERE Username = %s', (Username,))  
+    BlogID = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
+    Origin = data['Origin']
+
+    # Constructing the query
+    query = 'insert into Recipe (Name, Story, Directions, TagID, BlogID, Origin) values ("'
+    query += Name + '", "'
+    query += Story + '", "'
+    query += Directions + '", '
+    query += TagID + '", '
+    query += BlogID + '", '
+    query += Origin + ')'
+    current_app.logger.info(query)
+
+    # executing and committing the insert statement 
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    
+    return 'Success!'
