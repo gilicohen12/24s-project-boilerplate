@@ -126,6 +126,7 @@ def put_day():
     db.get_db().commit()
     return 'Current day updated!'
 
+# allows user to get rid of a goal on a specific date
 @day.route('/day/<Date>', methods=['DELETE'])
 def delete_recipe(Date):
     # Constructing the DELETE query
@@ -138,6 +139,7 @@ def delete_recipe(Date):
     db.get_db().commit()
 
     return 'Goal from Day {} deleted successfully!'.format(Date)
+
 
 @day.route('/day/<Username>', methods=['POST'])
 def post_username(Username):
