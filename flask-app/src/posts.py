@@ -3,7 +3,7 @@ from src import db
 
 posts = Blueprint('posts', __name__)
 
-# Get all the posts from blog ID
+# Get all the posts from username
 @posts.route('/posts/<username>', methods=['GET'])
 def get_posts_username(username):
     # Construct the SQL query with parameterization to avoid SQL injection
