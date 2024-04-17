@@ -36,14 +36,13 @@ def get_posts_username(username):
     return jsonify(json_data)
 
 # Adding a post to the blog
-@posts.route('/posts/<id>', methods=['POST'])
-def add_new_posts(id):
+@posts.route('/posts/<BlogID>', methods=['POST'])
+def add_new_posts(BlogID):
     # collecting data from the request object 
     the_data = request.json
     current_app.logger.info(the_data)
 
     #extracting the variable
-    BlogID = the_data['BlogID']
     Content = the_data['Content']
     Title = the_data['Title']
 
@@ -59,27 +58,28 @@ def add_new_posts(id):
     return 'A new post was added!'
 
 #Allow the user to edit their blog post
-@posts.route('/posts/<id>', methods=['PUT'])
-def put_posts(id):
+@posts.route('/posts', methods=['PUT'])
+def put_posts():
     data = request.json
     current_app.logger.info(data)
 
     BlogID = data['BlogID']
-    Content = data['BlogID']
+    Content = data['Content']
     Title = data['Title']
 
-    query = 'UPDATE Post SET BlogID = %s, Content = %s, Title = %s'
-    data= (BlogID, Content, Title)
+    query = 'UPDATE Post SET Content = %s, Title = %s WHERE BlogID = %s'
+    data= (Content, Title, BlogID)
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
     db.get_db().commit()
     return 'Blog post updated!'
+    
 
-#Allow the user to delete a blog post
-@posts.route('/posts/<id>', methods=['DELETE'])
-def delete_recipe_with_postID(id):
+# Allow the user to delete all blog posts
+@posts.route('/posts/<BlogID>', methods=['DELETE'])
+def delete_all_posts(BlogID):
     # Constructing the DELETE query
-    query = 'DELETE FROM Post WHERE id = {}'.format(id)
+    query = 'DELETE FROM Post WHERE BlogID = {}'.format(BlogID)
     current_app.logger.info(query)
 
     # Executing and committing the DELETE statement
@@ -87,4 +87,22 @@ def delete_recipe_with_postID(id):
     cursor.execute(query)
     db.get_db().commit()
 
-    return 'Posts with ID {} deleted successfully!'.format(id)
+    return 'Posts with ID {} deleted successfully!'.format(BlogID)
+
+# Delete a specific post
+@posts.route('/posts/delete', methods=['DELETE'])
+def delete_this_post():
+    # Constructing the DELETE query
+    data = request.json
+    current_app.logger.info(data)
+
+    Title = data['Title']
+    query = 'DELETE FROM Post WHERE Title = %s'
+    current_app.logger.info(query, Title)
+
+    # Executing and committing the DELETE statement
+    cursor = db.get_db().cursor()
+    cursor.execute(query, Title)
+    db.get_db().commit()
+
+    return 'Post with Title {} deleted successfully!'.format(Title)
