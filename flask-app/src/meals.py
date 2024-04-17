@@ -72,6 +72,46 @@ def put_meal_with_MealID(MealID):
 
     return 'Meal updated!'
 
+# Updates a meal
+@meal.route('/Meal/update', methods=['PUT'])
+def put_meal_():
+    data = request.json
+    current_app.logger.info(data)
+
+    MealID = data['MealID']
+    MealType = data['MealType']
+    Date = data['Date']
+    Food_Name = data['Food_Name']
+    ServingCount = data['ServingCount']
+    Fats = data['Fats']
+    Fruit = data['Fruit']
+    Grains = data['Grains']
+    Ing_Name = data['Ing_Name']
+    Protein = data['Protein']
+    TagID = data['TagID']
+    Veggie = data['Veggie']
+
+
+    query = 'UPDATE Meal SET MealType = %s, Date = %s WHERE MealID = %s'
+    data = (MealType, Date, MealID)
+    cursor = db.get_db().cursor()
+    cursor.execute(query, data)
+    db.get_db().commit()
+
+    query = 'UPDATE FoodItems SET Food_Name = %s, ServingCount = %s WHERE MealID = %s'
+    data = (Food_Name, ServingCount, MealID)
+    cursor = db.get_db().cursor()
+    cursor.execute(query, data)
+    db.get_db().commit()
+
+    query = 'UPDATE Ingredients SET Fats = %s, Fruit = %s, Grains = %s, Ing_Name = %s, Protein = %s, TagID = %s, Veggie = %s WHERE Food_Name = %s'
+    data = (Fats, Fruit, Grains, Ing_Name, Protein, TagID, Veggie, Food_Name)
+    cursor = db.get_db().cursor()
+    cursor.execute(query, data)
+    db.get_db().commit()
+
+    return 'Meal updated!'
+
 # Get meals for user with particular Date
 @meal.route('/Meal/<Date>', methods=['GET'])
 def get_meal_with_Date(Date):
