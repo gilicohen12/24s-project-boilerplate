@@ -141,45 +141,45 @@ def delete_recipe(Date):
     return 'Goal from Day {} deleted successfully!'.format(Date)
 
 
-@day.route('/day/<Username>', methods=['POST'])
-def post_username(Username):
-    query = 'insert into User (Username) values ("'
-    query += Username + '")'
-    current_app.logger.info(query)
+# @day.route('/day/<Username>', methods=['POST'])
+# def post_username(Username):
+#     query = 'insert into User (Username) values ("'
+#     query += Username + '")'
+#     current_app.logger.info(query)
 
-    # executing and committing the insert statement 
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    db.get_db().commit()
+#     # executing and committing the insert statement 
+#     cursor = db.get_db().cursor()
+#     cursor.execute(query)
+#     db.get_db().commit()
 
-    query = 'insert into Blog (Username) values ("'
-    query += Username + '")'
-    current_app.logger.info(query)
+#     query = 'insert into Blog (Username) values ("'
+#     query += Username + '")'
+#     current_app.logger.info(query)
 
-    # executing and committing the insert statement 
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    db.get_db().commit()
+#     # executing and committing the insert statement 
+#     cursor = db.get_db().cursor()
+#     cursor.execute(query)
+#     db.get_db().commit()
     
-    return 'Success!'
+#     return 'Success!'
 
-@day.route('/day/Username', methods=['GET'])
-def get_username():
-    query = '''
-        SELECT *
-        FROM Blog
-    '''
+# @day.route('/day/Username', methods=['GET'])
+# def get_username():
+#     query = '''
+#         SELECT *
+#         FROM Blog
+#     '''
 
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
+#     cursor = db.get_db().cursor()
+#     cursor.execute(query)
 
-    column_headers = [x[0] for x in cursor.description]
-    json_data = []
+#     column_headers = [x[0] for x in cursor.description]
+#     json_data = []
 
-    # fetch all the data from the cursor
-    theData = cursor.fetchall()
+#     # fetch all the data from the cursor
+#     theData = cursor.fetchall()
 
-    for row in theData:
-        json_data.append(dict(zip(column_headers, row)))
+#     for row in theData:
+#         json_data.append(dict(zip(column_headers, row)))
     
-    return jsonify(json_data)
+#     return jsonify(json_data)
