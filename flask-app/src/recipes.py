@@ -151,7 +151,7 @@ def add_new_recipe(Username):
 # -----------------------
 # NOT IN USE:
 
-# Get customer detail for customer with particular userID
+# Gets recipe details given RecipeID
 @recipes.route('/recipes/<RecipeID>', methods=['GET'])
 def get_recipes_recipeID(RecipeID):
     cursor = db.get_db().cursor()
