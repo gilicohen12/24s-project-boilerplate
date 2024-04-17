@@ -82,6 +82,7 @@ def get_meal():
 
 #     return 'Successfully added new meal!'
 
+# Logs a meal
 @meal.route('/Meal', methods=['POST'])
 def add_new_meal():
     the_data = request.json
