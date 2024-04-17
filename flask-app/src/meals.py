@@ -80,7 +80,7 @@ def put_meal_():
 
     MealID = data['MealID']
     MealType = data['MealType']
-    Date = data['Date']
+    # Date = data['Date']
     Food_Name = data['Food_Name']
     ServingCount = data['ServingCount']
     Fats = data['Fats']
@@ -92,23 +92,29 @@ def put_meal_():
     Veggie = data['Veggie']
 
 
-    query = 'UPDATE Meal SET MealType = %s, Date = %s WHERE MealID = %s'
-    data = (MealType, Date, MealID)
+    # query = 'UPDATE Meal SET MealType = %s, Date = %s WHERE MealID = %s'
+    # data = (MealType, Date, MealID)
+    query = 'UPDATE Meal SET MealType = %s WHERE MealID = %s'
+    data = (MealType, MealID)
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
     db.get_db().commit()
+    current_app.logger.info('meal updated')
 
     query = 'UPDATE FoodItems SET Food_Name = %s, ServingCount = %s WHERE MealID = %s'
     data = (Food_Name, ServingCount, MealID)
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
     db.get_db().commit()
+    current_app.logger.info('food items updated')
 
     query = 'UPDATE Ingredients SET Fats = %s, Fruit = %s, Grains = %s, Ing_Name = %s, Protein = %s, TagID = %s, Veggie = %s WHERE Food_Name = %s'
     data = (Fats, Fruit, Grains, Ing_Name, Protein, TagID, Veggie, Food_Name)
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
     db.get_db().commit()
+    current_app.logger.info('ingredients updated')
+
 
     return 'Meal updated!'
 
