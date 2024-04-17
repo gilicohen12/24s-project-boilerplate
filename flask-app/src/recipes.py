@@ -9,7 +9,8 @@ recipes = Blueprint('recipes', __name__)
 @recipes.route('/recipes', methods=['GET'])
 def get_all_recipes():
     cursor = db.get_db().cursor()
-    cursor.execute('select Name, Story, Directions, TagID, BlogID, Origin from Recipe')
+    # cursor.execute('select Name, Story, Directions, TagID, BlogID, Origin from Recipe')
+    cursor.execute('select * from Recipe natural join Tags')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
