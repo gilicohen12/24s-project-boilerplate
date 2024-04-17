@@ -3,6 +3,38 @@ from src import db
 
 posts = Blueprint('posts', __name__)
 
+# Get a posts from a BlogID
+@posts.route('/posts/<username>', methods=['GET'])
+def get_posts_BlogID(BlogID):
+    # Construct the SQL query with parameterization to avoid SQL injection
+    query = 'SELECT BlogID FROM Blog WHERE Username = %s'
+    current_app.logger.info(query)
+
+    # Execute the query with the username parameter
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (BlogD,))
+
+    row = cursor.fetchone()
+    BlogID = row[0]
+  
+    query = 'SELECT * FROM Post WHERE BlogID = %s'
+    current_app.logger.info(query)
+
+    # Execute the query with the username parameter
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (BlogID,))
+    
+    # Fetch the results and prepare JSON response
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    
+    the_data = cursor.fetchall()
+    
+    for row in the_data:
+        json_data.append(dict(zip(column_headers, row)))
+    
+    return jsonify(json_data)
+
 # Get all the posts from username
 @posts.route('/posts/<username>', methods=['GET'])
 def get_posts_username(username):
