@@ -22,7 +22,12 @@ def get_meal_with_MealID(MealID):
 @meal.route('/Meal', methods=['GET'])
 def get_meal():
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT * FROM Meal m JOIN FoodItems f ON m.MealID = f.MealID JOIN Ingredients i ON i.Food_Name = f.Food_Name')
+    cursor.execute('''
+        SELECT * 
+        FROM Meal m 
+        LEFT JOIN FoodItems f ON m.MealID = f.MealID 
+        LEFT JOIN Ingredients i ON i.Food_Name = f.Food_Name
+    ''')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
