@@ -1,4 +1,5 @@
 # Ashna Jain, Erika von Kirchbach, Gayatri Kondabathini, Gili Cohen, Greg Laursen
+# Our video link: https://drive.google.com/file/d/1_1_DeuBELKsqQT0qhPCnajG59gIeTslQ/view
 
 # MySQL + Flask Boilerplate Project
 
