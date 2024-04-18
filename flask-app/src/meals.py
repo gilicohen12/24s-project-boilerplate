@@ -35,7 +35,7 @@ def get_meal():
 
 # Add new meal to meals
 @meal.route('/Meal/<Username>', methods=['POST'])
-def add_new_meal(Username):
+def add_new_meal_username(Username):
     
     cursor = db.get_db().cursor()
     cursor.execute('SELECT LogID FROM Log WHERE Username = %s', (Username))  

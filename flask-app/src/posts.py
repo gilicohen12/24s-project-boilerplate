@@ -4,18 +4,18 @@ from src import db
 posts = Blueprint('posts', __name__)
 
 # Get a posts from a BlogID
-@posts.route('/posts/<username>', methods=['GET'])
+@posts.route('/posts/<BlogID>', methods=['GET'])
 def get_posts_BlogID(BlogID):
     # Construct the SQL query with parameterization to avoid SQL injection
-    query = 'SELECT BlogID FROM Blog WHERE Username = %s'
-    current_app.logger.info(query)
+    # query = 'SELECT BlogID FROM Blog WHERE Username = %s'
+    # current_app.logger.info(query)
 
-    # Execute the query with the username parameter
-    cursor = db.get_db().cursor()
-    cursor.execute(query, (BlogD,))
+    # # Execute the query with the username parameter
+    # cursor = db.get_db().cursor()
+    # cursor.execute(query, (Username,))
 
-    row = cursor.fetchone()
-    BlogID = row[0]
+    # row = cursor.fetchone()
+    # BlogID = row[0]
   
     query = 'SELECT * FROM Post WHERE BlogID = %s'
     current_app.logger.info(query)
