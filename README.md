@@ -1,6 +1,6 @@
 # Ashna Jain, Erika von Kirchbach, Gayatri Kondabathini, Gili Cohen, Greg Laursen
 # Our video link: https://drive.google.com/file/d/1_1_DeuBELKsqQT0qhPCnajG59gIeTslQ/view
-
+ 
 # MySQL + Flask Boilerplate Project
 
 This repo contains a boilerplate setup for spinning up 3 Docker containers: 
@@ -24,7 +24,12 @@ This repo contains a boilerplate setup for spinning up 3 Docker containers:
 1. Paste and run code from muchmasterpro.sql
 1. Create new query console, paste and run code from generated_data.sql
 
-1. With docker running, run localhost:8080 in a browser to run the app!
+# application url: http://localhost:8080/app/cs3200-final-appsmith/page1-6621a14666b0a65f3b038107?branch=master
+
+# if difficulty opening app
+1. import app in appsmith
+2. copy ssh link from our appsmith repository
+3. send the generated deploy key to Gili so she can give you access
 
 
 
