@@ -38,41 +38,38 @@ def get_meal():
     the_response.mimetype = 'application/json'
     return the_response
 
-# Add new meal to meals
-@meal.route('/Meal/<Username>', methods=['POST'])
-def add_new_meal_username(Username):
+# Add new meal to meals THIS ONE IN USE
+@meal.route('/Meal/log/<Username>', methods=['POST'])
+def post_new_meal(Username):
     
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT LogID FROM Log WHERE Username = %s', (Username,))
+    cursor.execute('SELECT LogID FROM Log WHERE Username = %s', (Username))  
     LogID = cursor.fetchone()[0]  # Assuming Username is unique and fetching the first result
-
+    
     the_data = request.json
     current_app.logger.info(the_data)
-
    
-    MealType = the_data['MealType']
-    Date = the_data['Date']
-    Food_Name = the_data['Food_Name']
-    ServingCount = the_data['ServingCount']
-    Fats = the_data['Fats']
-    Fruit = the_data['Fruit']
-    Grains = the_data['Grains']
-    Ing_Name = the_data['Ing_Name']
-    Protein = the_data['Protein']
-    TagID = the_data['TagID']
-    Veggie = the_data['Veggie']
     
-    query = 'INSERT INTO Day (Date, LogID) VALUES (%s)'
+    Date = the_data['Date']
+    Food_Name = str(the_data['Food_Name'])
+    MealType = the_data['MealType']
+    ServingCount = str(the_data['ServingCount'])
+    Fats = str(the_data['Fats'])
+    Fruit = str(the_data['Fruit'])
+    Grains = str(the_data['Grains'])
+    Ing_Name = str(the_data['Ing_Name'])
+    Protein = str(the_data['Protein'])
+    TagID = str(the_data['TagID'])
+    Veggie = str(the_data['Veggie'])
+    
+    query = 'INSERT INTO Day (Date, LogID) VALUES (%s, %s)'
     data = (Date, LogID)
-    cursor = db.get_db().cursor()
     cursor.execute(query, data)
     db.get_db().commit()
-    current_app.logger.info('date added')
 
     query = 'INSERT INTO Tags (TagID) VALUES (%s)'
-    data = (TagID)
     cursor = db.get_db().cursor()
-    cursor.execute(query, data)
+    cursor.execute(query, TagID)
     db.get_db().commit()
     current_app.logger.info('tag added')
 
@@ -83,7 +80,7 @@ def add_new_meal_username(Username):
     db.get_db().commit()
     current_app.logger.info('meal added')
 
-    query = 'INSERT INTO FoodItems (Food_Name, ServingCount) VALUES (%s, %s)'
+    query = 'INSERT INTO FoodItems (Food_Name, ServingCount) VALUES (%s, %s) WHERE MealID = %s'
     data = (Food_Name, ServingCount)
     cursor = db.get_db().cursor()
     cursor.execute(query, data)
